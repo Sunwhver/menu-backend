@@ -1,52 +1,47 @@
 import { Repository } from "typeorm";
 import { Category } from "./category.entity";
-import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateCategoryDto } from "./dto/create-category";
 import { UpdateCategoryDto } from "./dto/update-category";
+import { InjectRepository } from "@nestjs/typeorm";
 
+@Injectable()
 export class CategoryService {
 
-    constructor( 
-        @InjectRepository(Category)
+    constructor(
+        @InjectRepository(Category) 
         private readonly categoryRepository: Repository<Category>
     ) {
-    constructor(
-        @InjectRepository(Category)
-        private readonly categoryRepository: Repository<Category>) {
+
     }
 
     findAll(): Promise<Category[]> {
         return this.categoryRepository.find({
-            order: {name: 'ASC'}
+            order: { name: 'ASC' }
         });
     }
 
-    findOne(): Promise<Category> {
-        async findOne(id: string): Promise<Category>{
-        const category = await this.categoryRepository.findOneBy({ id })    
-
-        if(!category) {
+    async findOne(id: string): Promise<Category> {
+        const category = await this.categoryRepository.findOneBy({ id });
+        
+        if (!category) {
             throw new NotFoundException('Categoria não encontrada!');
         }
 
         return category;
     }
 
-    create(): Promise<Category> {
-        create(dto: CreateCategoryDto): Promise<Category> {
-
-        const category = this.categoryRepository.create({
+    create(dto: CreateCategoryDTO): Promise<Category> {
+        const category = this.categoryRepository.create({ 
             ...dto,
             name: dto.name,
-            active: true 
-        });
+            active: true
+         })
 
-        return this.categoryRepository.save(category);
+         return this.categoryRepository.save(category);
     }
 
-    update(): Promise<Category> {
-        async update(id: string, dto: UpdateCategoryDto): Promise<Category> {
+    async update(id: string, dto: UpdateCategoryDTO): Promise<Category> {
         const category = await this.findOne(id);
 
         if (dto.name !== undefined) {
@@ -60,10 +55,10 @@ export class CategoryService {
         return this.categoryRepository.save(category);
     }
 
-    remove(): Promise<void>  {
-        async remove(id: string): Promise<void>{
+    async remove(id: string): Promise<void> {
         const category = await this.findOne(id);
-        await this.categoryRepository.remove(category)
+
+        await this.categoryRepository.save(category);
     }
 
 }
