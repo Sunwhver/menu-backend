@@ -31,7 +31,7 @@ export class CategoryService {
         return category;
     }
 
-    create(dto: CreateCategoryDTO): Promise<Category> {
+    create(dto: CreateCategoryDto): Promise<Category> {
         const category = this.categoryRepository.create({ 
             ...dto,
             name: dto.name,
@@ -41,7 +41,7 @@ export class CategoryService {
          return this.categoryRepository.save(category);
     }
 
-    async update(id: string, dto: UpdateCategoryDTO): Promise<Category> {
+    async update(id: string, dto: UpdateCategoryDto): Promise<Category> {
         const category = await this.findOne(id);
 
         if (dto.name !== undefined) {

@@ -39,7 +39,7 @@ export class ProductService {
         return product;
     }
 
-    async create(dto: CreateProductDTO): Promise<Product> {
+    async create(dto: CreateProductDto): Promise<Product> {
 
         const category = dto.categoryId ? await this.getActiveCategory(dto.categoryId) : null;
 
@@ -55,7 +55,7 @@ export class ProductService {
          return this.productRepository.save(product);
     }
 
-    async update(id: string, dto: UpdateProductDTO): Promise<Product> {
+    async update(id: string, dto: UpdateProductDto): Promise<Product> {
         const product = await this.findOne(id);
 
         if (dto.name !== undefined) {

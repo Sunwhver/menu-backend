@@ -1,32 +1,32 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post } from "@nestjs/common";
-import { Category } from "./category.entity";
-import { CategoryService } from "./category.service";
-import { UpdateCategoryDto } from "./dto/update-category";
-import { CreateCategoryDto } from "./dto/create-category";
+import { Spot } from "./guest-check.entity";
+import { SpotService } from "./guest-check.service";
+import { CreateSpotDto } from "./dto/create-guest-check";
+import { UpdateSpotDto } from "./dto/update-spot";
 
-@Controller('categories')
-export class CategoryController {
+@Controller('spots')
+export class SpotController {
 
     constructor(
-        private readonly service: CategoryService
+        private readonly service: SpotService
     ){
         
     }
 
     @Get()
-    findAll() : Promise<Category[]> {
+    findAll() : Promise<Spot[]> {
         return this.service.findAll();
     }
 
     @Get(':id')
     findOne(
         @Param('id', ParseUUIDPipe)
-        id: string) : Promise<Category>{
+        id: string) : Promise<Spot>{
         return this.service.findOne(id);
     }
 
     @Post()
-    create(@Body() dto: CreateCategoryDto): Promise<Category> {
+    create(@Body() dto: CreateSpotDto): Promise<Spot> {
         return this.service.create(dto);
     }
 
@@ -35,7 +35,7 @@ export class CategoryController {
         @Param('id', ParseUUIDPipe)
         id: string,
         @Body()
-         dto: UpdateCategoryDto): Promise<Category> {
+         dto: UpdateSpotDto): Promise<Spot> {
         return this.service.update(id, dto);
     }
 
